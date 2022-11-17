@@ -7,8 +7,8 @@ If we have unbalanced number of rows, we can equalize it, adding to the partitio
 
 `new_df = equalize(df, columns_name = ['company','target'])`
 
-![](images/image1.png?raw=true)
+![](images/image1.png)
 
 And we get finally equal groups of data rows:
 
-![](images/image2.png?raw=true)
+![](images/image2.png)
