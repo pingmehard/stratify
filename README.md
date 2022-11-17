@@ -1,9 +1,9 @@
 ### Equalization of pandas strings
 
-So we have to start from main solution - equal number of string by columns.
-Shortly, we equalize strings by partitions and min max of count strings.
+So we have to start from main solution - equal number of strings by columns.
+Shortly, we equalize strings by partitions and get min max of count strings.
 
-If we have unbalanced number of rows, we can equalize it, adding to the partition:
+If we have unbalanced number of rows by any columns, we can equalize it, adding to the partition the columns:
 
 `new_df = equalize(df, columns_name = ['company','target'])`
 
@@ -23,11 +23,11 @@ And after:
 
 ### Row number
 
-All famous function to create window partion sequence of raising numbers.
+All famous function to create window partition sequence of raising numbers.
 
 It implements raising number in a column of dataframe with partition which you state and sorting dataframe.
 
-For example we'd like to make row number on car company:
+For example we'd like to make row number on car companies:
 
 `row_number(df, partition_by=['company'])`
 
