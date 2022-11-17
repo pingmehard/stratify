@@ -1,49 +1,31 @@
-# %%
-def sample_part_on_index(df, columns_name, index, value, random_state = None):
+import pandas as pd
 
-    for i in range(len(columns_name)):
-        df = df[df[columns_name[i]] == index[i]]
+def equalize(df, columns_name = None, random_state = None):
 
-    return df.sample(value, random_state=random_state)
-
-# %%
-def equalize(df, target_name, columns_name = None, random_state = None):
+    '''
+    df - pandas dataframe
+    columns_name - columns which used to groupby the dataframe and calc a window rolling
+    random_state - shiffle strings in datafarme before stratification
+    '''
 
     if columns_name is not None:
         columns = columns_name.copy()
-        columns.append(target_name)
     elif columns_name is None:
         columns = list(df.columns)
-
-    df_dict = df[columns].value_counts().to_dict()
     
-    df_dict_sorted = dict(sorted(df_dict.items(), key = lambda x: x[0]))
-    temp_list = []
-    min_value = max(df_dict_sorted.values()) + 1
-    c = 1
+    # shuffle dataframe
+    df = df.sample(df.shape[0], random_state = random_state)
 
-    for index in df_dict_sorted:
+    # rolling windows to get min max
+    df['rolling'] = df.groupby(columns).cumcount() + 1
+    max_of_window_list = df.groupby(['company'])['rolling'].max().values
+    minimum_of_window = min(max_of_window_list)
 
-        temp_list.append(index)
+    # get equalized dataframe
+    stratified_df = df[df['rolling'] <= minimum_of_window]
+    stratified_df.drop('rolling', axis = 1, inplace = True)
 
-        if df_dict_sorted[index] < min_value:
-            min_value = df_dict_sorted[index]
+    print('top-5 rows:')
+    print(stratified_df.head(5))
 
-        if c % 2 == 0:
-            for i in temp_list:
-                df_dict_sorted[i] = min_value
-            temp_list = []
-            min_value = max(df_dict_sorted.values()) + 1
-            
-        c += 1
-
-    sampled_dataframe = pd.DataFrame(columns=df.columns)
-    df_temp = df.copy()
-
-    for index in df_dict_sorted.keys():
-        
-        sampled_dataframe = pd.concat([sampled_dataframe, sample_part_on_index(df_temp, columns, index = index, value = df_dict_sorted[index], random_state = random_state)])
-
-    return sampled_dataframe
-
-
+    return stratified_df
