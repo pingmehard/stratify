@@ -1,11 +1,11 @@
 import pandas as pd
 
-def row_number(df, partition_by = None, order_by = None, ascending = True):
+def row_number(df: pd.DataFrame, partition_by: list | None = None, order_by: list | None = None, ascending = True) -> pd.DataFrame:
     '''
-    df - pandas dataframe
-    partition_by - divide dataframe by windows which stated in list format. New counter (1,2,3...) each new unique string sequence.
-    order_by - columns which needs to be sorted
-    ascending - sort order, True means that it starts from 1,2,3...a,b,c.., False - reversed
+    :df: - pandas dataframe\n
+    :partition_by: - divide dataframe by windows which stated in list format. New counter (1,2,3...) each new unique string sequence.\n
+    :order_by: - columns which needs to be sorted\n
+    :ascending: - sort order, True means that it starts from 1,2,3...a,b,c.., False - reversed\n
     '''
     if partition_by is not None:
         columns = partition_by.copy()
@@ -23,12 +23,12 @@ def row_number(df, partition_by = None, order_by = None, ascending = True):
 
     return df
 
-def equalize(df, columns_name = None, random_state = None):
+def equalize(df: pd.DataFrame, columns_name: list | None = None, random_state: int | None = None) -> pd.DataFrame:
 
     '''
-    df - pandas dataframe
-    columns_name - columns which used to groupby the dataframe and calc a window rolling
-    random_state - shiffle strings in datafarme before stratification
+    :df: - pandas dataframe\n
+    :columns_name: - columns which used to groupby the dataframe and calc a window rolling\n
+    :random_state: - shiffle strings in datafarme before stratification\n
     '''
 
     if columns_name is not None:
