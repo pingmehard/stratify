@@ -41,7 +41,7 @@ def equalize(df, columns_name = None, random_state = None):
 
     # rolling windows to get min max
     df['rolling'] = df.groupby(columns).cumcount() + 1
-    max_of_window_list = df.groupby(['company'])['rolling'].max().values
+    max_of_window_list = df.groupby(columns)['rolling'].max().values
     minimum_of_window = min(max_of_window_list)
 
     # get equalized dataframe
